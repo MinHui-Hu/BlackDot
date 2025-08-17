@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>黑點吐司 - 頂級手工土司專家</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* 導航欄 */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #8B4513;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #D2691E;
+        }
+
+        .cart-icon {
+            position: relative;
+            font-size: 1.2rem;
+            color: #8B4513;
+            cursor: pointer;
+        }
+
+        /* 英雄區塊 */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(135deg, #FFF8DC 0%, #F5DEB3 50%, #DEB887 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="2" height="2" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="0.5" fill="rgba(139,69,19,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>') repeat;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        /* 背景Logo效果 */
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 10%;
+            left: 5%;
+            width: 200px;
+            height: 200px;
+            background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxjaXJjbGUgY3g9IjEwMCIgY3k9IjEwMCIgcj0iOTAiIGZpbGw9InJnYmEoMjEwLCAxMDUsIDMwLCAwLjEpIiBzdHJva2U9InJnYmEoMjEwLCAxMDUsIDMwLCAwLjIpIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1kYXNoYXJyYXk9IjUgNSIvPgo8dGV4dCB4PSIxMDAiIHk9IjEwNSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0icmdiYSgxMzksIDY5LCAxOSwgMC4zKSIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9ImJvbGQiPkxPR08gRUZGRUNUPC90ZXh0Pgo8L3N2Zz4K') no-repeat center;
+            background-size: contain;
+            opacity: 0.6;
+            animation: logoFloat 15s ease-in-out infinite;
+            z-index: 1;
+        }
+
+        @keyframes logoFloat {
+            0%, 100% { transform: translateY(0px) rotate(0deg) scale(1); }
+            33% { transform: translateY(-30px) rotate(2deg) scale(1.05); }
+            66% { transform: translateY(-15px) rotate(-1deg) scale(0.95); }
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 2;
+            max-width: 800px;
+            padding: 0 2rem;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            color: #8B4513;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #654321;
+            margin-bottom: 2rem;
+            animation: fadeInUp 1s ease-out 0.3s both;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: linear-gradient(45deg, #D2691E, #FF8C00);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: fadeInUp 1s ease-out 0.6s both;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(210, 105, 30, 0.3);
+        }
+
+        /* Logo 區域 - 重新設計 */
+        .hero-logo-section {
+            position: absolute;
+            top: 50px;
+            right: 50px;
+            width: 200px;
+            height: 250px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            backdrop-filter: blur(15px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+            border: 3px solid #D2691E;
+            z-index: 3;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            padding: 20px;
+        }
+
+        .hero-logo-section:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
+        }
+
+        .hero-brand-logo {
+            width: 150px;
+            height: 150px;
+            border-radius: 15px;
+            object-fit: cover;
+            margin-bottom: 10px;
+        }
+
+        .hero-brand-text {
+            text-align: center;
+            color: #8B4513;
+            font-weight: bold;
+        }
+
+        .hero-brand-name {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+
+        .hero-brand-tagline {
+            font-size: 0.9rem;
+            color: #D2691E;
+            opacity: 0.8;
+        }
+
+        /* 主Logo在導航欄 */
+        .main-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .main-logo img {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%; /* 讓圖片變成圓形 */
+            border: 2px solid #D2691E; /* 給圖片加個邊框 */
+            object-fit: cover; /* 確保圖片在圓形框內良好顯示 */
+        }
+        .floating-bread {
+            position: absolute;
+            font-size: 2rem;
+            color: rgba(139, 69, 19, 0.3);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .floating-bread:nth-child(1) { top: 20%; left: 10%; animation-delay: 0s; }
+        .floating-bread:nth-child(2) { top: 60%; right: 15%; animation-delay: 2s; }
+        .floating-bread:nth-child(3) { bottom: 30%; left: 20%; animation-delay: 4s; }
+
+        /* 產品展示區 */
+        .products {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #8B4513;
+            margin-bottom: 3rem;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .product-image {
+            height: 200px;
+            background: linear-gradient(45deg, #DEB887, #F5DEB3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* 土司造型 */
+        .toast-classic {
+            width: 120px;
+            height: 80px;
+            background: linear-gradient(135deg, #DEB887 0%, #F4A460 50%, #CD853F 100%);
+            border-radius: 15px;
+            position: relative;
+            box-shadow: 0 8px 16px rgba(139, 69, 19, 0.3);
+        }
+
+        .toast-classic::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            background: linear-gradient(135deg, #F5DEB3 0%, #DEB887 100%);
+            border-radius: 8px;
+        }
+
+        .toast-milk {
+            width: 120px;
+            height: 80px;
+            background: linear-gradient(135deg, #FFF8DC 0%, #F5DEB3 50%, #DEB887 100%);
+            border-radius: 15px;
+            position: relative;
+            box-shadow: 0 8px 16px rgba(139, 69, 19, 0.3);
+        }
+
+        .toast-milk::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            background: linear-gradient(135deg, #FFFACD 0%, #FFF8DC 100%);
+            border-radius: 8px;
+        }
+
+        .toast-chocolate {
+            width: 120px;
+            height: 80px;
+            background: linear-gradient(135deg, #8B4513 0%, #A0522D 50%, #D2691E 100%);
+            border-radius: 15px;
+            position: relative;
+            box-shadow: 0 8px 16px rgba(139, 69, 19, 0.4);
+        }
+
+        .toast-chocolate::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            background: linear-gradient(135deg, #CD853F 0%, #8B4513 100%);
+            border-radius: 8px;
+        }
+
+        .toast-wholemeal {
+            width: 120px;
+            height: 80px;
+            background: linear-gradient(135deg, #8B7355 0%, #A0522D 50%, #CD853F 100%);
+            border-radius: 15px;
+            position: relative;
+            box-shadow: 0 8px 16px rgba(139, 69, 19, 0.3);
+        }
+
+        .toast-wholemeal::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            background: linear-gradient(135deg, #D2B48C 0%, #BC9A6A 100%);
+            border-radius: 8px;
+        }
+
+        .toast-wholemeal::after {
+            content: '';
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            width: 4px;
+            height: 4px;
+            background: #8B4513;
+            border-radius: 50%;
+            box-shadow: 20px 10px 0 #654321, 40px 5px 0 #8B4513, 60px 15px 0 #654321, 30px 25px 0 #8B4513, 70px 30px 0 #654321;
+        }
+
+        .toast-cheese {
+            width: 120px;
+            height: 80px;
+            background: linear-gradient(135deg, #DEB887 0%, #F4A460 50%, #CD853F 100%);
+            border-radius: 15px;
+            position: relative;
+            box-shadow: 0 8px 16px rgba(139, 69, 19, 0.3);
+        }
+
+        .toast-cheese::before {
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            right: 8px;
+            height: 25px;
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            border-radius: 8px 8px 0 0;
+        }
+
+        .toast-cheese::after {
+            content: '';
+            position: absolute;
+            bottom: 8px;
+            left: 8px;
+            right: 8px;
+            top: 35px;
+            background: linear-gradient(135deg, #F5DEB3 0%, #DEB887 100%);
+            border-radius: 0 0 8px 8px;
+        }
+
+        .toast-strawberry {
+            width: 120px;
+            height: 80px;
+            background: linear-gradient(135deg, #DEB887 0%, #F4A460 50%, #CD853F 100%);
+            border-radius: 15px;
+            position: relative;
+            box-shadow: 0 8px 16px rgba(139, 69, 19, 0.3);
+        }
+
+        .toast-strawberry::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            background: linear-gradient(135deg, #FFB6C1 0%, #FF69B4 50%, #F5DEB3 100%);
+            border-radius: 8px;
+        }
+
+        /* 古早味蛋糕造型 */
+        .cake-original {
+            width: 120px;
+            height: 60px;
+            background: linear-gradient(135deg, #F5DEB3 0%, #DEB887 50%, #CD853F 100%);
+            border-radius: 8px;
+            position: relative;
+            box-shadow: 0 8px 16px rgba(139, 69, 19, 0.3);
+        }
+
+        .cake-original::before {
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            right: 8px;
+            bottom: 8px;
+            background: linear-gradient(135deg, #FFFACD 0%, #F5DEB3 100%);
+            border-radius: 4px;
+        }
+
+        .cake-cheese {
+            width: 120px;
+            height: 60px;
+            background: linear-gradient(135deg, #F5DEB3 0%, #DEB887 50%, #CD853F 100%);
+            border-radius: 8px;
+            position: relative;
+            box-shadow: 0 8px 16px rgba(139, 69, 19, 0.3);
+        }
+
+        .cake-cheese::before {
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            right: 8px;
+            bottom: 8px;
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            border-radius: 4px;
+        }
+
+        .cake-chocolate {
+            width: 120px;
+            height: 60px;
+            background: linear-gradient(135deg, #8B4513 0%, #A0522D 50%, #D2691E 100%);
+            border-radius: 8px;
+            position: relative;
+            box-shadow: 0 8px 16px rgba(139, 69, 19, 0.4);
+        }
+
+        .cake-chocolate::before {
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            right: 8px;
+            bottom: 8px;
+            background: linear-gradient(135deg, #654321 0%, #8B4513 100%);
+            border-radius: 4px;
+        }
+
+        .cake-matcha {
+            width: 120px;
+            height: 60px;
+            background: linear-gradient(135deg, #8FBC8F 0%, #9ACD32 50%, #90EE90 100%);
+            border-radius: 8px;
+            position: relative;
+            box-shadow: 0 8px 16px rgba(139, 69, 19, 0.3);
+        }
+
+        .cake-matcha::before {
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            right: 8px;
+            bottom: 8px;
+            background: linear-gradient(135deg, #F0FFF0 0%, #E0FFE0 100%);
+            border-radius: 4px;
+        }
+
+        /* 現場取貨標示 */
+        .pickup-only {
+            background: linear-gradient(45deg, #FF6B6B, #FF4757);
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            margin-left: 0.5rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .product-info {
+            padding: 1.5rem;
+        }
+
+        .product-name {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #8B4513;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-description {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .product-price {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #D2691E;
+        }
+
+        /* 特色區塊 */
+        .features {
+            background: linear-gradient(135deg, #8B4513 0%, #A0522D 100%);
+            color: white;
+            padding: 5rem 2rem;
+            text-align: center;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .feature-item {
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #FFD700;
+        }
+
+        /* 頁尾 */
+        .footer {
+            background: #2C1810;
+            color: white;
+            padding: 3rem 2rem 1rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            color: #D2691E;
+            margin-bottom: 1rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: #D2691E;
+        }
+
+        /* 動畫 */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+
+        /* 響應式設計 */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .navbar {
+                padding: 1rem;
+            }
+
+            .main-logo img {
+                width: 35px;
+                height: 35px;
+            }
+
+            .hero-logo-section {
+                width: 150px;
+                height: 180px;
+                top: 30px;
+                right: 20px;
+                padding: 15px;
+            }
+
+            .hero-brand-logo {
+                width: 100px;
+                height: 100px;
+            }
+
+            .hero-brand-name {
+                font-size: 1rem;
+            }
+
+            .hero-brand-tagline {
+                font-size: 0.8rem;
+            }
+        }
+
+        /* 滾動效果 */
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.6s ease;
+        }
+
+        .scroll-reveal.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- 導航欄 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo main-logo">
+                <!-- 您的 Logotato.png Logo 已加入這裡，並使用正確的 Canvas 環境路徑 -->
+                <img src="uploaded:Logotato.png-93256703-2d4e-4156-ba38-4ccfc2c9e43a" alt="黑點吐司 Logo" onerror="this.onerror=null;this.src='https://placehold.co/45x45/8B4513/FFFFFF?text=Logo';" class="brand-logo">
+                <span>黑點吐司</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#home">首頁</a></li>
+                <li><a href="#products">產品</a></li>
+                <li><a href="#cakes">古早味蛋糕</a></li>
+                <li><a href="#about">關於我們</a></li>
+                <li><a href="#contact">聯絡我們</a></li>
+            </ul>
+            <div class="cart-icon">
+                <i class="fas fa-shopping-cart"></i>
+                <span style="position: absolute; top: -8px; right: -8px; background: #D2691E; color: white; border-radius: 50%; width: 20px; height: 20px; font-size: 0.8rem; display: flex; align-items: center; justify-content: center;">3</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 英雄區塊 -->
+    <section class="hero" id="home">
+        <!-- Logo 主要展示位置 -->
+        <!-- 將英雄區塊的 Logo 也替換為您的 Logotato.png，並使用正確的 Canvas 環境路徑 -->
+        <div class="logo-section">
+            <img src="uploaded:Logotato.png-93256703-2d4e-4156-ba38-4ccfc2c9e43a" alt="黑點吐司 Logo" onerror="this.onerror=null;this.src='https://placehold.co/200x200/DEB887/FFFFFF?text=Logo';" class="brand-logo">
+        </div>
+        
+        <div class="floating-bread">🍞</div>
+        <div class="floating-bread">🥖</div>
+        <div class="floating-bread">🥐</div>
+        
+        <div class="hero-content">
+            <h1>頂級手工吐司</h1>
+            <p>採預訂製作 · 新鮮出爐後冷凍保鮮 · 確保每一口都是最完美的口感</p>
+            <a href="#products" class="cta-button">立即預訂</a>
+        </div>
+    </section>
+
+    <!-- 產品展示區 -->
+    <section class="products" id="products">
+        <h2 class="section-title scroll-reveal">精選土司系列</h2>
+        <div class="product-grid">
+            <div class="product-card scroll-reveal">
+                <div class="product-image">
+                    <div class="toast-classic"></div>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">經典原味吐司</h3>
+                    <p class="product-description">採用日本進口麵粉，24小時低溫發酵，預訂製作確保新鮮</p>
+                    <div class="product-price">NT$ 120 <span style="font-size:0.8rem;color:#666;">(預訂製)</span></div>
+                </div>
+            </div>
+            
+            <div class="product-card scroll-reveal">
+                <div class="product-image">
+                    <div class="toast-milk"></div>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">北海道牛奶吐司</h3>
+                    <p class="product-description">嚴選北海道鮮奶製作，奶香濃郁，質地柔軟</p>
+                    <div class="product-price">NT$ 150 <span style="font-size:0.8rem;color:#666;">(預訂製)</span></div>
+                </div>
+            </div>
+            
+            <div class="product-card scroll-reveal">
+                <div class="product-image">
+                    <div class="toast-chocolate"></div>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">比利時巧克力吐司</h3>
+                    <p class="product-description">融入頂級比利時巧克力，甜而不膩的完美平衡</p>
+                    <div class="product-price">NT$ 180 <span style="font-size:0.8rem;color:#666;">(預訂製)</span></div>
+                </div>
+            </div>
+            
+            <div class="product-card scroll-reveal">
+                <div class="product-image">
+                    <div class="toast-wholemeal"></div>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">全麥養生吐司</h3>
+                    <p class="product-description">富含膳食纖維，健康美味兼顧，養生首選</p>
+                    <div class="product-price">NT$ 140 <span style="font-size:0.8rem;color:#666;">(預訂製)</span></div>
+                </div>
+            </div>
+            
+            <div class="product-card scroll-reveal">
+                <div class="product-image">
+                    <div class="toast-cheese"></div>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">起司燻火腿吐司</h3>
+                    <p class="product-description">濃郁起司搭配精選燻火腿，鹹香滿足</p>
+                    <div class="product-price">NT$ 200 <span style="font-size:0.8rem;color:#666;">(預訂製)</span></div>
+                </div>
+            </div>
+            
+            <div class="product-card scroll-reveal">
+                <div class="product-image">
+                    <div class="toast-strawberry"></div>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">季節限定草莓吐司</h3>
+                    <p class="product-description">新鮮草莓果醬內餡，酸甜清香的季節美味</p>
+                    <div class="product-price">NT$ 160 <span style="font-size:0.8rem;color:#666;">(預訂製)</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 古早味蛋糕區塊 -->
+    <section class="cakes" id="cakes" style="padding: 5rem 2rem; background: linear-gradient(135deg, #FFF8DC 0%, #F0F8FF 100%);">
+        <div style="max-width: 1200px; margin: 0 auto;">
+            <h2 class="section-title scroll-reveal" style="color: #8B4513;">🍰 現烤古早味蛋糕</h2>
+            
+            <!-- 特色說明 -->
+            <div style="text-align: center; margin-bottom: 3rem;">
+                <div class="scroll-reveal" style="background: rgba(255, 255, 255, 0.9); border-radius: 20px; padding: 2rem; box-shadow: 0 10px 30px rgba(0,0,0,0.1); max-width: 800px; margin: 0 auto;">
+                    <h3 style="color: #D2691E; margin-bottom: 1rem; font-size: 1.3rem;">傳承台灣古早味 · 每日新鮮現烤</h3>
+                    <p style="color: #666; line-height: 1.8; margin-bottom: 1rem;">
+                        採用傳統工法製作，無添加防腐劑，口感綿密濕潤，蛋香濃郁。
+                        每日限量現烤，<strong style="color: #FF4757;">僅提供現場取貨，不提供宅配服務</strong>。
+                    </p>
+                    <div style="background: rgba(255, 75, 87, 0.1); border-left: 4px solid #FF4757; padding: 1rem; border-radius: 8px; margin-top: 1rem;">
+                        <p style="color: #FF4757; font-weight: bold; margin: 0;">
+                            ⚠️ 重要提醒：古早味蛋糕僅限現場取貨，請提前電話預訂
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 蛋糕產品網格 -->
+            <div class="product-grid">
+                <div class="product-card scroll-reveal">
+                    <div class="product-image">
+                        <div class="cake-original"></div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">
+                            經典原味古早味蛋糕
+                            <span class="pickup-only">現場取貨</span>
+                        </h3>
+                        <p class="product-description">純正雞蛋香味，口感綿密濕潤，最經典的古早味道</p>
+                        <div class="product-price">NT$ 180 <span style="font-size:0.8rem;color:#666;">/條 (約1磅)</span></div>
+                    </div>
+                </div>
+                
+                <div class="product-card scroll-reveal">
+                    <div class="product-image">
+                        <div class="cake-cheese"></div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">
+                            濃郁起司古早味蛋糕
+                            <span class="pickup-only">現場取貨</span>
+                        </h3>
+                        <p class="product-description">清香乳酪風味，綿密細緻口感，減糖健康配方</p>
+                        <div class="product-price">NT$ 220 <span style="font-size:0.8rem;color:#666;">/條 (約1磅)</span></div>
+                    </div>
+                </div>
+                
+                <div class="product-card scroll-reveal">
+                    <div class="product-image">
+                        <div class="cake-chocolate"></div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">
+                            爆漿巧克力古早味蛋糕
+                            <span class="pickup-only">現場取貨</span>
+                        </h3>
+                        <p class="product-description">濃郁巧克力香氣，內有巧克力爆漿餡，甜而不膩</p>
+                        <div class="product-price">NT$ 250 <span style="font-size:0.8rem;color:#666;">/條 (約1磅)</span></div>
+                    </div>
+                </div>
+                
+                <div class="product-card scroll-reveal">
+                    <div class="product-image">
+                        <div class="cake-matcha"></div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">
+                            日式抹茶古早味蛋糕
+                            <span class="pickup-only">現場取貨</span>
+                        </h3>
+                        <p class="product-description">選用頂級抹茶粉，淡雅茶香與蛋糕完美融合</p>
+                        <div class="product-price">NT$ 240 <span style="font-size:0.8rem;color:#666;">/條 (約1磅)</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 特色區塊 -->
+    <section class="features">
+        <h2 class="section-title scroll-reveal" style="color: white;">我們的特色</h2>
+        <div class="features-grid">
+            <div class="feature-item scroll-reveal">
+                <i class="fas fa-hand-sparkles feature-icon"></i>
+                <h3>手工製作</h3>
+                <p>堅持傳統手工揉製，匠心獨具</p>
+            </div>
+            <div class="feature-item scroll-reveal">
+                <i class="fas fa-seedling feature-icon"></i>
+                <h3>嚴選食材</h3>
+                <p>只用最新鮮、最天然的頂級原料</p>
+            </div>
+            <div class="feature-item scroll-reveal">
+                <i class="fas fa-temperature-low feature-icon"></i>
+                <h3>低溫發酵</h3>
+                <p>24小時低溫慢發，成就完美口感</p>
+            </div>
+            <div class="feature-item scroll-reveal">
+                <i class="fas fa-truck-moving feature-icon"></i>
+                <h3>新鮮直送</h3>
+                <p>新鮮出爐後急速冷凍，鎖住美味</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 關於我們 -->
+    <section class="about" id="about" style="padding: 5rem 2rem; max-width: 1200px; margin: 0 auto; text-align: center;">
+        <h2 class="section-title scroll-reveal">關於黑點吐司</h2>
+        <div class="scroll-reveal" style="background: white; border-radius: 20px; padding: 3rem; box-shadow: 0 10px 30px rgba(0,0,0,0.1); display: flex; flex-direction: column; align-items: center;">
+            <p style="font-size: 1.1rem; color: #666; line-height: 1.8; margin-bottom: 2rem; max-width: 800px;">
+                黑點吐司創立於2023年，源自於對手工吐司的熱愛與堅持。
+                我們相信，最簡單的食材，透過最純粹的工法，才能烘焙出最動人的美味。
+                每一條吐司都承載著我們對品質的承諾，希望將這份溫暖與幸福，傳遞給每一位品嚐者。
+            </p>
+            <img src="https://placehold.co/400x250/DEB887/FFFFFF?text=吐司製作過程" alt="吐司製作過程" style="width: 100%; max-width: 400px; border-radius: 15px; margin-bottom: 1.5rem; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+            <p style="font-size: 1rem; color: #8B4513; font-weight: bold;">
+                「用心烘焙，傳遞幸福」是我們的品牌理念。
+            </p>
+        </div>
+    </section>
+
+    <!-- 聯絡我們 -->
+    <section class="contact" id="contact" style="padding: 5rem 2rem; background: linear-gradient(135deg, #F5DEB3 0%, #FFF8DC 100%);">
+        <div style="max-width: 800px; margin: 0 auto; text-align: center;">
+            <h2 class="section-title scroll-reveal" style="color: #8B4513;">✉️ 聯絡我們</h2>
+            <div class="scroll-reveal" style="background: white; border-radius: 20px; padding: 3rem; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                <p style="font-size: 1.1rem; color: #666; margin-bottom: 1.5rem;">
+                    有任何問題或預訂需求，歡迎隨時與我們聯繫！
+                </p>
+                <ul style="list-style: none; padding: 0; margin-bottom: 2rem;">
+                    <li style="margin-bottom: 1rem; color: #654321; font-size: 1rem;">
+                        <i class="fas fa-phone-alt" style="color: #D2691E; margin-right: 10px;"></i>
+                        電話: (02) 1234-5678
+                    </li>
+                    <li style="margin-bottom: 1rem; color: #654321; font-size: 1rem;">
+                        <i class="fas fa-map-marker-alt" style="color: #D2691E; margin-right: 10px;"></i>
+                        地址: 台北市信義區忠孝東路一段1號 (僅提供現場取貨)
+                    </li>
+                    <li style="color: #654321; font-size: 1rem;">
+                        <i class="fas fa-clock" style="color: #D2691E; margin-right: 10px;"></i>
+                        營業時間: 週二至週日 10:00 - 18:00 (週一公休)
+                    </li>
+                </ul>
+                <a href="mailto:info@blackdottoast.com" class="cta-button" style="background: linear-gradient(45deg, #8B4513, #A0522D);">發送郵件</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 頁尾 -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>黑點吐司</h3>
+                <p>頂級手工吐司專家</p>
+            </div>
+            <div class="footer-section">
+                <h3>快速連結</h3>
+                <ul>
+                    <li><a href="#home" style="color: white; text-decoration: none;">首頁</a></li>
+                    <li><a href="#products" style="color: white; text-decoration: none;">產品</a></li>
+                    <li><a href="#cakes" style="color: white; text-decoration: none;">古早味蛋糕</a></li>
+                    <li><a href="#about" style="color: white; text-decoration: none;">關於我們</a></li>
+                    <li><a href="#contact" style="color: white; text-decoration: none;">聯絡我們</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>追蹤我們</h3>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-line"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom" style="margin-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1rem;">
+            <p>&copy; 2023 黑點吐司. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // 平滑滾動效果
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // 滾動顯示動畫
+        const scrollElements = document.querySelectorAll('.scroll-reveal');
+
+        const elementInView = (el, dividend = 1) => {
+            const elementTop = el.getBoundingClientRect().top;
+            return (
+                elementTop <=
+                (window.innerHeight || document.documentElement.clientHeight) / dividend
+            );
+        };
+
+        const displayScrollElement = (element) => {
+            element.classList.add('revealed');
+        };
+
+        const handleScrollAnimation = () => {
+            scrollElements.forEach((el) => {
+                if (elementInView(el, 1.25)) {
+                    displayScrollElement(el);
+                }
+            });
+        };
+
+        window.addEventListener('scroll', handleScrollAnimation);
+        // 頁面加載時也檢查一次，以防元素已經在視圖中
+        handleScrollAnimation();
+    </script>
+</body>
+</html>
