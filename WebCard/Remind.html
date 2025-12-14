@@ -1,0 +1,505 @@
+
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>龍之嶺渡假村 - 住客專屬須知</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fadeIn {
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        const { useState } = React;
+        const GuestGuideApp = () => {
+  const [lang, setLang] = useState('zh');
+  const [activeTab, setActiveTab] = useState('checkout');
+
+  // Language configurations
+  const languages = [
+    { code: 'zh', label: '繁體中文', flag: '🇹🇼' },
+    { code: 'en', label: 'English', flag: '🇺🇸' },
+    { code: 'vn', label: 'Tiếng Việt', flag: '🇻🇳' },
+    { code: 'id', label: 'Bahasa Indo', flag: '🇮🇩' },
+    { code: 'th', label: 'ภาษาไทย', flag: '🇹🇭' }
+  ];
+
+  // Content Data
+  const content = {
+    brand: {
+      zh: '龍之嶺渡假村',
+      en: 'Dragon Ridge Resort',
+      vn: 'Khu nghỉ dưỡng Dragon Ridge',
+      id: 'Resor Dragon Ridge',
+      th: 'ดราก้อน ริจ รีสอร์ท'
+    },
+    subtitle: {
+      zh: '住客專屬須知',
+      en: 'Guest Guidelines',
+      vn: 'Hướng dẫn khách',
+      id: 'Panduan Tamu',
+      th: 'คู่มือผู้เข้าพัก'
+    },
+    contact: {
+      label: {
+        zh: '聯絡人：江先生',
+        en: 'Contact: Mr. Jiang',
+        vn: 'Liên hệ: Ông Jiang',
+        id: 'Hubungi: Bpk. Jiang',
+        th: 'ติดต่อ: คุณเจียง'
+      },
+      phone: '0983093679'
+    },
+    tabs: [
+      {
+        id: 'indoor',
+        icon: '🏠',
+        title: {
+          zh: '室內使用規定',
+          en: 'Indoor Rules',
+          vn: 'Quy định trong nhà',
+          id: 'Aturan Dalam Ruangan',
+          th: 'กฎภายในห้องพัก'
+        },
+        items: {
+          zh: [
+            '室內全面禁止吸菸（包含浴室與陽台）。',
+            '請愛惜房內設備，若有損壞需照價賠償。',
+            '請勿移動大型家具，以免刮傷地板。'
+          ],
+          en: [
+            'Smoking is strictly prohibited indoors (including bathrooms and balconies).',
+            'Please take care of room facilities; damages must be compensated.',
+            'Do not move large furniture to avoid scratching the floor.'
+          ],
+          vn: [
+            'Cấm hút thuốc trong nhà (bao gồm cả phòng tắm và ban công).',
+            'Vui lòng giữ gìn thiết bị trong phòng, nếu hư hỏng sẽ phải bồi thường.',
+            'Không di chuyển đồ nội thất lớn để tránh làm trầy xước sàn nhà.'
+          ],
+          id: [
+            'Dilarang merokok di dalam ruangan (termasuk kamar mandi dan balkon).',
+            'Harap jaga fasilitas kamar, kerusakan akan dikenakan biaya ganti rugi.',
+            'Jangan memindahkan furnitur besar untuk menghindari goresan pada lantai.'
+          ],
+          th: [
+            'ห้ามสูบบุหรี่ภายในห้องพัก (รวมถึงห้องน้ำและระเบียง)',
+            'โปรดดูแลรักษาอุปกรณ์ภายในห้อง หากเสียหายต้องชดใช้ตามราคา',
+            'ห้ามเคลื่อนย้ายเฟอร์นิเจอร์ขนาดใหญ่เพื่อป้องกันพื้นเป็นรอย'
+          ]
+        }
+      },
+      {
+        id: 'cleaning',
+        icon: '🧹',
+        title: {
+          zh: '清潔與環境',
+          en: 'Cleaning & Environment',
+          vn: 'Vệ sinh & Môi trường',
+          id: 'Kebersihan & Lingkungan',
+          th: 'ความสะอาด & สิ่งแวดล้อม'
+        },
+        items: {
+          zh: [
+            '請協助做好垃圾分類（保特瓶、玻璃瓶、塑膠、紙類）。',
+            '房間外環境請自行維護，若造成嚴重髒亂，將收取 NT$ 1000 清潔費。'
+          ],
+          en: [
+            'Please help with trash sorting (PET bottles, glass bottles, plastic, paper).',
+            'Please maintain cleanliness outside the room. Severe messes will incur a NT$ 1000 cleaning fee.'
+          ],
+          vn: [
+            'Vui lòng phân loại rác (chai nhựa PET, chai thủy tinh, nhựa, giấy).',
+            'Vui lòng giữ vệ sinh bên ngoài phòng. Nếu gây bẩn nghiêm trọng sẽ tính phí vệ sinh NT$ 1000.'
+          ],
+          id: [
+            'Mohon bantu memilah sampah (botol PET, botol kaca, plastik, kertas).',
+            'Harap menjaga kebersihan di luar kamar. Kekacauan parah akan dikenakan biaya pembersihan NT$ 1000.'
+          ],
+          th: [
+            'กรุณาช่วยแยกขยะ (ขวดพลาสติก, ขวดแก้ว, พลาสติก, กระดาษ)',
+            'กรุณารักษาความสะอาดบริเวณหน้าห้อง หากทำสกปรกมากจะมีค่าทำความสะอาด NT$ 1000'
+          ]
+        }
+      },
+      {
+        id: 'occupancy',
+        icon: '👥',
+        title: {
+          zh: '住宿人數與訪客',
+          en: 'Occupancy & Visitors',
+          vn: 'Số lượng khách & Khách đến thăm',
+          id: 'Hunian & Pengunjung',
+          th: 'จำนวนผู้เข้าพัก & ผู้มาเยือน'
+        },
+        items: {
+          zh: [
+            '請依照預訂人數入住，若超過人數需補差價。',
+            '訪客請於晚間 10:00 前離開，不得留宿。',
+            '為確保安全，僅接待已登記之住客進入客房區域。'
+          ],
+          en: [
+            'Please stay according to the booked number of guests. Additional charges apply for extra guests.',
+            'Visitors must leave before 10:00 PM and are not allowed to stay overnight.',
+            'For security reasons, only registered guests are allowed in the room area.'
+          ],
+          vn: [
+            'Vui lòng ở đúng số lượng người đã đặt. Nếu vượt quá sẽ tính thêm phí.',
+            'Khách đến thăm vui lòng rời đi trước 10:00 tối, không được ở lại qua đêm.',
+            'Vì lý do an ninh, chỉ khách đã đăng ký mới được vào khu vực phòng nghỉ.'
+          ],
+          id: [
+            'Harap menginap sesuai jumlah orang yang dipesan. Biaya tambahan berlaku untuk kelebihan tamu.',
+            'Pengunjung harap meninggalkan area sebelum pukul 22:00, tidak diperbolehkan menginap.',
+            'Demi keamanan, hanya tamu terdaftar yang diizinkan masuk ke area kamar.'
+          ],
+          th: [
+            'กรุณาเข้าพักตามจำนวนที่จองไว้ หากเกินจำนวนจะมีค่าใช้จ่ายเพิ่มเติม',
+            'ผู้มาเยือนกรุณากลับก่อนเวลา 22:00 น. ไม่อนุญาตให้ค้างคืน',
+            'เพื่อความปลอดภัย อนุญาตให้เฉพาะผู้เข้าพักที่ลงทะเบียนเข้าสู่พื้นที่ห้องพัก'
+          ]
+        }
+      },
+      {
+        id: 'quiet',
+        icon: '🤫',
+        title: {
+          zh: '安靜與秩序',
+          en: 'Quiet & Order',
+          vn: 'Yên tĩnh & Trật tự',
+          id: 'Ketenangan & Ketertiban',
+          th: 'ความสงบ & ความเรียบร้อย'
+        },
+        items: {
+          zh: [
+            '晚上 10:00 後請降低音量，避免打擾其他住客。',
+            '嚴禁酗酒喧嘩、開派對或賭博。',
+            '本渡假村禁止攜帶寵物（導盲犬除外）。'
+          ],
+          en: [
+            'Please lower the volume after 10:00 PM to avoid disturbing other guests.',
+            'Drunkenness, loud partying, or gambling are strictly prohibited.'
+          ],
+          vn: [
+            'Sau 10:00 tối, vui lòng giữ yên lặng để không làm phiền khách khác.',
+            'Nghiêm cấm say rượu, tiệc tùng ồn ào hoặc cờ bạc.'
+          ],
+          id: [
+            'Harap tenang setelah pukul 22:00 agar tidak mengganggu tamu lain.',
+            'Dilarang keras mabuk, berpesta, atau berjudi.'
+          ],
+          th: [
+            'หลังเวลา 22:00 น. กรุณาลดเสียงเพื่อไม่ให้รบกวนผู้เข้าพักท่านอื่น',
+            'ห้ามเมาสุราส่งเสียงดัง จัดปาร์ตี้ หรือเล่นการพนันโดยเด็ดขาด'
+          ]
+        }
+      },
+      {
+        id: 'safety',
+        icon: '🛡️',
+        title: {
+          zh: '安全規定',
+          en: 'Safety Rules',
+          vn: 'Quy định an toàn',
+          id: 'Peraturan Keamanan',
+          th: 'กฎความปลอดภัย'
+        },
+        items: {
+          zh: [
+            '禁止攜帶違禁品、易燃物或危險物品進入園區。',
+            '外出時請務必鎖好門窗。',
+            '緊急狀況請立即聯繫房東江先生'
+          ],
+          en: [
+            'Prohibited items, flammables, or dangerous goods are not allowed.',
+            'Please lock doors and windows when going out.',
+            'In case of emergency, contact the front desk immediately or dial 119.'
+          ],
+          vn: [
+            'Cấm mang hàng cấm, chất dễ cháy hoặc vật nguy hiểm vào khu nghỉ dưỡng.',
+            'Vui lòng khóa cửa sổ và cửa ra vào khi ra ngoài.',
+            'Trong trường hợp khẩn cấp, liên hệ ngay quầy lễ tân hoặc gọi 119.'
+          ],
+          id: [
+            'Dilarang membawa barang ilegal, mudah terbakar, atau berbahaya ke area resor.',
+            'Pastikan mengunci pintu dan jendela saat keluar.',
+            'Dalam keadaan darurat, hubungi resepsionis segera atau telepon 119.'
+          ],
+          th: [
+            'ห้ามนำสิ่งผิดกฎหมาย วัตถุไวไฟ หรือวัตถุอันตรายเข้ามาในรีสอร์ท',
+            'กรุณาล็อคประตูและหน้าต่างให้เรียบร้อยเมื่อออกไปข้างนอก',
+            'กรณีฉุกเฉิน กรุณาติดต่อแผนกต้อนรับทันที หรือโทร 119'
+          ]
+        }
+      },
+      {
+        id: 'removed',
+        icon: '🐕',
+        title: {
+          zh: '寵物政策',
+          en: 'Pet Policy',
+          vn: 'Chính sách thú cưng',
+          id: 'Kebijakan Hewan',
+          th: 'นโยบายสัตว์เลี้ยง'
+        },
+        items: {
+          zh: [
+            '本渡假村禁止攜帶寵物（導盲犬除外）。',
+            '若私自攜帶寵物，將收取特殊清潔費並要求退房。'
+          ],
+          en: [
+            'Pets are not allowed (except guide dogs).',
+            'Unauthorized pets will incur a special cleaning fee and you will be asked to leave.'
+          ],
+          vn: [
+            'Không được phép mang thú cưng (trừ chó dẫn đường).',
+            'Nếu mang thú cưng không phép, sẽ tính phí vệ sinh đặc biệt và yêu cầu trả phòng.'
+          ],
+          id: [
+            'Hewan peliharaan tidak diperbolehkan (kecuali anjing penuntun).',
+            'Membawa hewan peliharaan tanpa izin akan dikenakan biaya pembersihan khusus dan diminta check-out.'
+          ],
+          th: [
+            'ไม่อนุญาตให้นำสัตว์เลี้ยงเข้าพัก (ยกเว้นสุนัขนำทาง)',
+            'หากนำสัตว์เลี้ยงเข้ามาโดยไม่ได้รับอนุญาต จะมีค่าทำความสะอาดพิเศษและเชิญออกจากที่พัก'
+          ]
+        }
+      },
+      {
+        id: 'checkout',
+        icon: '🚪',
+        title: {
+          zh: '退租須知',
+          en: 'Check-out Policy',
+          vn: 'Trả phòng',
+          id: 'Check-out',
+          th: 'เช็คเอาท์'
+        },
+        items: {
+          zh: [
+            '退租前半個月須通知房東。',
+            '退租時，須歸還鑰匙、冷氣搖控器。',
+            '房內設備須由房東檢查後才能離開。',
+            '請檢查個人物品是否帶齊，遺失恕不負責。'
+          ],
+          en: [
+            'Please notify the landlord half a month before moving out.',
+            'Return keys and the air conditioner remote when checking out.',
+            'Room facilities must be inspected by the landlord before you leave.',
+            'Please check your personal belongings; we are not responsible for lost items.'
+          ],
+          vn: [
+            'Vui lòng thông báo cho chủ nhà trước nửa tháng khi trả phòng.',
+            'Vui lòng trả lại chìa khóa và điều khiển máy lạnh khi trả phòng.',
+            'Thiết bị trong phòng phải được chủ nhà kiểm tra trước khi quý khách rời đi.',
+            'Vui lòng kiểm tra kỹ hành lý cá nhân, chúng tôi không chịu trách nhiệm nếu thất lạc.'
+          ],
+          id: [
+            'Harap beri tahu pemilik sewa setengah bulan sebelum pindah.',
+            'Harap kembalikan kunci dan remote AC saat check-out.',
+            'Fasilitas kamar harus diperiksa oleh pemilik sebelum Anda pergi.',
+            'Periksa kembali barang bawaan Anda, kami tidak bertanggung jawab atas kehilangan.'
+          ],
+          th: [
+            'กรุณาแจ้งเจ้าของห้องพักล่วงหน้าครึ่งเดือนก่อนย้ายออก',
+            'กรุณาคืนกุญแจและรีโมทแอร์เมื่อเช็คเอาท์',
+            'สิ่งอำนวยความสะดวกในห้องต้องได้รับการตรวจสอบโดยเจ้าของก่อนออกเดินทาง',
+            'กรุณาตรวจสอบสัมภาระให้ครบถ้วน ทางเราไม่รับผิดชอบต่อการสูญหาย'
+          ]
+        }
+      }
+    ]
+  };
+
+  return (
+    <div className="min-h-screen bg-pink-50 font-sans text-gray-700 pb-12">
+      {/* Decorative Background Elements */}
+      <div className="fixed top-0 left-0 w-32 h-32 bg-pink-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-pulse" />
+      <div className="fixed top-0 right-0 w-32 h-32 bg-yellow-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-pulse delay-700" />
+      <div className="fixed bottom-0 left-10 w-40 h-40 bg-purple-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-pulse delay-1000" />
+
+      {/* Main Container */}
+      <div className="relative max-w-md mx-auto md:max-w-2xl bg-white/60 min-h-screen shadow-2xl backdrop-blur-sm border-x border-pink-100/50">
+        
+        {/* Header Section with Logo */}
+        <header className="pt-8 pb-6 px-6 text-center bg-gradient-to-b from-white to-pink-50/50 rounded-b-3xl shadow-sm relative overflow-hidden">
+          {/* Logo Placeholder - assuming Logo.png is in the same directory */}
+          <div className="flex justify-center mb-4">
+             <div className="w-24 h-24 bg-white rounded-full p-1 shadow-md border-2 border-pink-200 overflow-hidden">
+                <img 
+                  src="../Logo/cabin.png" 
+                  alt="Dragon Ridge Logo" 
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.style.display = 'none';
+                    e.target.parentNode.classList.add('flex', 'items-center', 'justify-center');
+                    e.target.parentNode.innerHTML = '<svg class="w-12 h-12 text-pink-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>';
+                  }}
+                />
+             </div>
+          </div>
+          
+          <h1 className="text-2xl md:text-3xl font-bold text-pink-600 tracking-wide mb-1">
+            {content.brand[lang]}
+          </h1>
+          <p className="text-pink-400 font-medium text-sm md:text-base">
+            ✦ {content.subtitle[lang]} ✦
+          </p>
+        </header>
+
+        {/* Language Switcher - Sticky */}
+        <div className="sticky top-0 z-30 bg-white/95 backdrop-blur-md py-3 px-2 shadow-sm border-b border-pink-100">
+          <div className="flex justify-center space-x-2 overflow-x-auto no-scrollbar py-1">
+            {languages.map((l) => (
+              <button
+                key={l.code}
+                onClick={() => setLang(l.code)}
+                className={`flex items-center space-x-1 px-3 py-1.5 rounded-full text-sm font-medium transition-all duration-300 transform whitespace-nowrap ${
+                  lang === l.code
+                    ? 'bg-pink-500 text-white shadow-lg scale-105'
+                    : 'bg-white text-gray-500 hover:bg-pink-50 border border-pink-100'
+                }`}
+              >
+                <span className="text-lg">{l.flag}</span>
+                <span>{l.label}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Navigation Tabs - Horizontal Scroll */}
+        <div className="px-4 mt-6">
+          <div className="flex space-x-3 overflow-x-auto pb-4 no-scrollbar snap-x">
+            {content.tabs.filter(tab => tab.id !== 'removed').map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`flex-shrink-0 snap-start flex flex-col items-center justify-center w-24 h-24 p-2 rounded-2xl transition-all duration-300 border-2 ${
+                  activeTab === tab.id
+                    ? 'bg-white border-pink-400 shadow-lg -translate-y-1'
+                    : 'bg-white/50 border-transparent hover:bg-pink-50 hover:border-pink-200'
+                }`}
+              >
+                <div className={`p-2 rounded-full mb-2 ${
+                  activeTab === tab.id ? 'bg-pink-100 text-pink-600' : 'bg-gray-100 text-gray-400'
+                }`}>
+                  <span className="text-2xl">{tab.icon}</span>
+                </div>
+                <span className={`text-xs text-center leading-tight font-medium line-clamp-2 ${
+                  activeTab === tab.id ? 'text-pink-600' : 'text-gray-400'
+                }`}>
+                  {tab.title[lang]}
+                </span>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Content Area */}
+        <main className="px-4 md:px-8 mt-2 pb-6">
+          <div className="bg-white rounded-3xl p-6 md:p-8 shadow-xl border border-pink-100 min-h-[400px] transition-all duration-500 ease-in-out relative overflow-hidden group">
+            
+            {/* Cute corner decoration */}
+            <div className="absolute top-0 right-0 w-20 h-20 bg-pink-50 rounded-bl-full -mr-4 -mt-4 transition-transform group-hover:scale-110" />
+            
+            {content.tabs.map((tab) => {
+              if (tab.id === 'removed' || tab.id !== activeTab) return null;
+              return (
+                <div key={tab.id} className="animate-fadeIn">
+                  <div className="flex items-center space-x-3 mb-6 relative z-10">
+                    <div className="p-3 bg-pink-100 rounded-xl text-pink-500 shadow-sm transform -rotate-6">
+                      <span className="text-2xl">{tab.icon}</span>
+                    </div>
+                    <h2 className="text-xl md:text-2xl font-bold text-gray-800">
+                      {tab.title[lang]}
+                    </h2>
+                  </div>
+
+                  <div className="space-y-4 relative z-10">
+                    {tab.items[lang].map((item, index) => (
+                      <div 
+                        key={index} 
+                        className="flex items-start space-x-3 p-3 rounded-xl hover:bg-pink-50/50 transition-colors duration-200"
+                      >
+                        <span className="flex-shrink-0 w-6 h-6 flex items-center justify-center bg-pink-200 text-pink-700 text-xs font-bold rounded-full mt-0.5">
+                          {index + 1}
+                        </span>
+                        <p className="text-gray-600 leading-relaxed text-sm md:text-base">
+                          {item}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </main>
+
+        {/* Footer with Contact Info */}
+        <footer className="text-center pb-8 px-6 space-y-4">
+          
+          {/* Contact Card */}
+          <div className="bg-white/80 backdrop-blur-sm p-4 rounded-2xl shadow-sm border border-pink-100 inline-block w-full max-w-xs">
+            <div className="flex items-center justify-center space-x-2 text-pink-600 font-bold mb-1">
+               <img src="../Logo/Logo.png" alt="Logo" className="w-6 h-6 rounded-full" />
+               <span>{content.contact.label[lang]}</span>
+               <span className="text-lg">📞</span>
+            </div>
+            <a href={`tel:${content.contact.phone}`} className="text-2xl font-mono text-gray-700 hover:text-pink-500 transition-colors">
+              {content.contact.phone}
+            </a>
+          </div>
+
+          <div className="block text-xs text-gray-400">
+            © 2025 Dragon Ridge Resort.
+          </div>
+        </footer>
+
+      </div>
+      
+      {/* CSS for custom scrollbar hiding if needed */}
+      <style jsx global>{`
+        .no-scrollbar::-webkit-scrollbar {
+          display: none;
+        }
+        .no-scrollbar {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(10px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fadeIn {
+          animation: fadeIn 0.4s ease-out forwards;
+        }
+      `}</style>
+    </div>
+  );
+};
+        ReactDOM.render(<GuestGuideApp />, document.getElementById('root'));
+    </script>
+</body>
+</html>
+
